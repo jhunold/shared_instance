@@ -1,5 +1,13 @@
+shared_instance
+===============
+
+a wrapper around `std::shared_ptr` that cannot be null
+
+Author: Robin Eckert `<const@const-iterator.de>`
+
+
 Introduction
-============
+------------
 
 `shared_instance` is a wrapper around `std::shared_ptr` ensuring that
 the pointer is always set to value other than `nullptr`. Attemps to
@@ -9,7 +17,7 @@ as possible -- when the pointer is set rather than when the pointer is
 used.
 
 Motivation
-==========
+----------
 
 `std::shared_ptr`s are a effective way to store data that needs shared
 ownership. Like plain pointers, they also support to be set as a null
@@ -20,8 +28,7 @@ manually checked or is only detected when the pointer is dereferenced
 which can be too late. I will present two practical examples: function
 calls and containers of `shared_references`s.
 
-Example: Function Call
-----------------------
+### Example: Function Call ###
 
 Suppose you have an instance of type `Foo` which is needed to have
 shared ownership:
@@ -100,8 +107,7 @@ calling `bar` and not deep inside `bar` (or its subfunctions) when the
 pointer is finally dereferenced and used. Also, no checks in `bar` are
 needed, simplifying its implementation.
 
-Example: Container of `shared_reference`s
------------------------------------------
+### Example: Container of `shared_reference`s ###
 
 Consider a vector of object of type `Node` which need shared ownership:
 
@@ -140,7 +146,7 @@ pointer, the exception is thrown directly where the error occurs.
 
 
 Usage
-=====
+-----
 
 The `shared_instance` template is designed to be used in tight
 conjunction with `std::shared_ptr`. The interface resembles that of
@@ -222,12 +228,12 @@ Interface functions involving  `std::auto_ptr` are also not included in
 `shared_instance`.
 
 Reference
-=========
+---------
 
 $TODO
 
 Implementation notes
-====================
+--------------------
 
 The implementation is implemented as simply a wrapper around
 `std::shared_ptr`. This reduces the error potential implementing the
@@ -241,7 +247,7 @@ that `shared_instance` is a kind of proxy to an object and is
 implemented using a pointer.
 
 Prospect
-========
+--------
 
 I haven't decided yet if I find it useful to have
 `unique_instance`. It could probably be useful when needing to have
@@ -249,7 +255,7 @@ single-ownership objects which don't fit on the stack, especially when
 returning them from a function.
 
 License
-=======
+-------
 
 `shared_instance` is distributed under the Boost Software License,
 Version 1.0.  See accompanying file `LICENSE` or copy at
