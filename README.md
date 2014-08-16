@@ -26,7 +26,7 @@ delayed detection of errors. Often, `shared_ptr`s are required and
 expected to be non-null. If such a constraint is violated, it must be
 manually checked or is only detected when the pointer is dereferenced
 which can be too late. I will present two practical examples: function
-calls and containers of `shared_references`s.
+calls and containers of `shared_instance`s.
 
 ### Example: Function Call ###
 
@@ -107,7 +107,7 @@ calling `bar` and not deep inside `bar` (or its subfunctions) when the
 pointer is finally dereferenced and used. Also, no checks in `bar` are
 needed, simplifying its implementation.
 
-### Example: Container of `shared_reference`s ###
+### Example: Container of `shared_instance`s ###
 
 Consider a vector of object of type `Node` which need shared ownership:
 
