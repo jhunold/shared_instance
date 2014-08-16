@@ -1,0 +1,7 @@
+project shared_obj
+    : requirements
+        <include>include
+        <threading>multi
+    ;
+
+build-project test ;

@@ -1,0 +1,9 @@
+project shared_instance_test
+    : requirements
+         <library>/boost//unit_test_framework
+    ;
+
+alias shared_instance_test_test
+    :
+         [ run shared_instance_test.cpp ]
+    ;
