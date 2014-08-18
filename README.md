@@ -19,7 +19,7 @@ used.
 Motivation
 ----------
 
-`std::shared_ptr`s are a effective way to store data that needs shared
+`std::shared_ptr`s are an effective way to store data that needs shared
 ownership. Like plain pointers, they also support to be set as a null
 pointer. This is adequate (and needed) in many places but can lead to
 delayed detection of errors. Often, `shared_ptr`s are required and
@@ -224,8 +224,8 @@ So the following won't compile:
     f.reset();                           // reset() not available
     if (f) { }                           // operator bool not available
 
-Interface functions involving  `std::auto_ptr` are also not included in
-`shared_instance`.
+Interface functions involving the deprecated `std::auto_ptr` are also
+not included in `shared_instance`.
 
 Reference
 ---------
@@ -235,13 +235,13 @@ $TODO
 Implementation notes
 --------------------
 
-The implementation is implemented as simply a wrapper around
+The implementation is implemented as a simple wrapper around
 `std::shared_ptr`. This reduces the error potential implementing the
-shared ownership correctly, yields better integreation with
+shared ownership correctly, yields better integration with
 `std::shared_ptr` and simplifies the implementation.
 
-Also, I did no attempts were made to mimic references semantics. I
-don't think this is needed, writing `instance->member()` instead of
+Also, I did not attempt to mimic reference semantics. I don't think
+this is needed, writing `instance->member()` instead of
 `instance.member()` is just fine for practical reasons. It highlights
 that `shared_instance` is a kind of proxy to an object and is
 implemented using a pointer.
@@ -249,10 +249,10 @@ implemented using a pointer.
 Prospect
 --------
 
-I haven't decided yet if I find it useful to have
-`unique_instance`. It could probably be useful when needing to have
-single-ownership objects which don't fit on the stack, especially when
-returning them from a function.
+I'm yet undecided if it would be useful to have `unique_instance`. It
+could probably be useful when the need arises to have single-ownership
+objects which don't fit on the stack, especially when returning them
+from a function.
 
 License
 -------
