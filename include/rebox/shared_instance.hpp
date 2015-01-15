@@ -68,12 +68,10 @@ namespace rebox
         template<typename Y, typename Deleter>
         shared_instance& operator=(std::unique_ptr<Y,Deleter>&& r);
 
-        T& operator*() const;
-        T* operator->() const;
+        T& operator&() const;
+        T& get() const;
 
         explicit operator std::shared_ptr<T>() const;
-
-        T* get() const;
 
         long use_count() const;
         bool unique() const;
@@ -231,16 +229,16 @@ namespace rebox
 
     template<typename T>
     T&
-    shared_instance<T>::operator*() const
+    shared_instance<T>::operator&() const
     {
         return *m_obj;
     }
 
     template<typename T>
-    T*
-    shared_instance<T>::operator->() const
+    T&
+    shared_instance<T>::get() const
     {
-        return m_obj.get();
+        return *m_obj.get();
     }
 
     template<typename T>
@@ -260,13 +258,6 @@ namespace rebox
         }
 
         m_obj.swap(ptr);
-    }
-
-    template<typename T>
-    T*
-    shared_instance<T>::get() const
-    {
-        return m_obj.get();
     }
 
     template<typename T>

@@ -10,7 +10,7 @@ Introduction
 ------------
 
 `shared_instance` is a wrapper around `std::shared_ptr` ensuring that
-the pointer is always set to value other than `nullptr`. Attemps to
+the pointer is always set to value other than `nullptr`. Attempts to
 construct a `shared_instance` with a null value lead to an
 exception. The purpose is to notice errorneous null pointers as soon
 as possible -- when the pointer is set rather than when the pointer is
@@ -76,7 +76,7 @@ to its caller. This is has the following advantages:
    claim ownership of its argument.
 
 As of these advantages, I prefer this type of calling method. But this
-only works, if `bar` doesn't need to claim ownership. For example, if
+only works if `bar` doesn't need to claim ownership. For example, if
 `bar` would be a constructor of a class storing a shared `Foo`, this
 calling method won't work. If we resort to passing a
 `shared_ptr<Foo>`, we lose the advantages above. To overcome this
@@ -124,7 +124,7 @@ elements of `v`:
     {
         op(*p);
     }
-    
+
 In this implementation, we trust the creator of v that all pointers
 are set. If we want to be safe, we would need to check each pointer
 either in the loop, in the operation itself or someplace earlier in
@@ -133,9 +133,9 @@ checks can easily be forgotten. We also need to specify a behaviour if
 we encounter a null pointer (throw an exception, ignore the element,
 set an error code, ...).
 
-As it is probably incorrect to insert a null
-pointer into the vector in the first place, this should be enforced as
-early as possible. So we define the vector using `shared_instance` instead of `shared_ptr`:
+As it is probably incorrect to insert a null pointer into the vector
+in the first place, this should be enforced as early as possible. So
+we define the vector using `shared_instance` instead of `shared_ptr`:
 
     std::vector<shared_instance<Foo>> v;
 
@@ -176,12 +176,15 @@ Construction from `std::weak_ptr` and move construction from
 `std::weak_ptr`, the exception is throws both if the `std::weak_ptr`
 is null and if the object pointed to by it was deleted.
 
-The instance pointed to can be used like with `shared_ptr`:
+The instance pointed to can be used like with
+`std::reference_wrapper`:
 
     shared_instance f{std::make_shared<Foo>()};
-    doSomething(*f);                            // always safe, no checks needed
-    f->...();                                   // always safe, no checks needed
-    ... = f.get();
+    doSomething(f);                             // always safe, no checks needed
+    f.get(). ...();                             // always safe, no checks needed
+
+Information members from `shared_ptr` are also available:
+
     ... = f.use_count();
     ... = f.unique();
 
@@ -191,7 +194,7 @@ explicitly casted to one or a `shared_ptr` can be obtained using
 
     shared_instance instance{std::make_shared<Foo>()};
     shared_ptr<Foo> shared{instance.ptr()};
-    
+
 Cast are also possible:
 
     class Base { };
@@ -205,27 +208,6 @@ Cast are also possible:
 `dynamic_pointer_cast` is not available. Use `instance.ptr()` instead:
 
     shared_instance<Derived const> derived = std::dynamic_pointer_cast<Target>(instance.ptr());
- 
-The following functions of `std::shared_ptr` are not available in
-`shared_instance` as they always construct null objects:
-
-  - the default constructor
-  - all constructors from `nullptr_t`
-  - `reset()`
-  - `operator bool` (this would always yield `true`)
-  - `std::dynamic_pointer_cast` (already explained above)
-
-So the following won't compile:
-
-    shared_instance<Foo> empty;          // default constructor not available
-    shared_instance<Foo> empty(nullptr); // constructor from nullptr_t not available
-
-    shared_instance<Foo> f{std::make_shared<Foo>()};
-    f.reset();                           // reset() not available
-    if (f) { }                           // operator bool not available
-
-Interface functions involving the deprecated `std::auto_ptr` are also
-not included in `shared_instance`.
 
 Reference
 ---------
@@ -239,12 +221,6 @@ The implementation is implemented as a simple wrapper around
 `std::shared_ptr`. This reduces the error potential implementing the
 shared ownership correctly, yields better integration with
 `std::shared_ptr` and simplifies the implementation.
-
-Also, I did not attempt to mimic reference semantics. I don't think
-this is needed, writing `instance->member()` instead of
-`instance.member()` is just fine for practical reasons. It highlights
-that `shared_instance` is a kind of proxy to an object and is
-implemented using a pointer.
 
 Prospect
 --------

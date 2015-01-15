@@ -78,7 +78,7 @@ namespace rebox
         {
             Base* ptr{new Base(deleteCount)};
             shared_instance<Base> foo(ptr);
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -94,7 +94,7 @@ namespace rebox
             Base* ptr{new Base(deleteCount)};
             shared_instance<Base> foo(ptr, TestDeleter(deleterUseCount));
 
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
             BOOST_CHECK_EQUAL(deleterUseCount, 0);
         }
@@ -114,7 +114,7 @@ namespace rebox
                                       TestDeleter(deleterUseCount),
                                       std::allocator<Base>());
 
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
             BOOST_CHECK_EQUAL(deleterUseCount, 0);
         }
@@ -134,7 +134,7 @@ namespace rebox
 
             shared_instance<Base> foo(weak);
 
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -165,7 +165,7 @@ namespace rebox
 
             shared_instance<Base> foo{std::unique_ptr<Base>{ptr}};
 
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -185,7 +185,7 @@ namespace rebox
 
             {
                 shared_instance<Base> bar{foo};
-                BOOST_CHECK_EQUAL(bar.get(), ptr);
+                BOOST_CHECK_EQUAL(&bar.get(), ptr);
                 BOOST_CHECK_EQUAL(deleteCount, 0);
             }
         }
@@ -205,7 +205,7 @@ namespace rebox
 
             {
                 shared_instance<Base> bar{foo};
-                BOOST_CHECK_EQUAL(bar.get(), ptr);
+                BOOST_CHECK_EQUAL(&bar.get(), ptr);
                 BOOST_CHECK_EQUAL(deleteCount, 0);
             }
         }
@@ -257,7 +257,7 @@ namespace rebox
             Base* ptr{new Base(deleteCount)};
             std::shared_ptr<Base> foo{ptr};
             shared_instance<Base> bar{foo};
-            BOOST_CHECK_EQUAL(bar.get(), ptr);
+            BOOST_CHECK_EQUAL(&bar.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -273,7 +273,7 @@ namespace rebox
             Derived* ptr{new Derived(deleteCount)};
             std::shared_ptr<Derived> foo{ptr};
             shared_instance<Base> bar{foo};
-            BOOST_CHECK_EQUAL(bar.get(), ptr);
+            BOOST_CHECK_EQUAL(&bar.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -288,7 +288,7 @@ namespace rebox
         {
             Base* ptr{new Base(deleteCount)};
             shared_instance<Base> bar{std::shared_ptr<Base>{ptr}};
-            BOOST_CHECK_EQUAL(bar.get(), ptr);
+            BOOST_CHECK_EQUAL(&bar.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -303,7 +303,7 @@ namespace rebox
         {
             Derived* ptr{new Derived(deleteCount)};
             shared_instance<Base> bar{std::shared_ptr<Derived>{ptr}};
-            BOOST_CHECK_EQUAL(bar.get(), ptr);
+            BOOST_CHECK_EQUAL(&bar.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -316,8 +316,8 @@ namespace rebox
         int* ptr{new int{42}};
         shared_instance<int> foo{ptr};
 
-        BOOST_CHECK_EQUAL(foo.get(), ptr);
-        BOOST_CHECK_EQUAL(*foo, 42);
+        BOOST_CHECK_EQUAL(&foo.get(), ptr);
+        BOOST_CHECK_EQUAL(foo.get(), 42);
     }
 
 
@@ -328,9 +328,8 @@ namespace rebox
         Base* ptr{new Base{deleteCount}};
         shared_instance<Base> foo{ptr};
 
-        BOOST_CHECK_EQUAL(foo.get(), ptr);
-        BOOST_CHECK_EQUAL(foo->foo(), 42);
-        BOOST_CHECK_EQUAL((*foo).foo(), 42);
+        BOOST_CHECK_EQUAL(&foo.get(), ptr);
+        BOOST_CHECK_EQUAL(foo.get().foo(), 42);
     }
 
 
@@ -421,7 +420,7 @@ namespace rebox
 
         BOOST_CHECK_THROW(foo = empty, std::invalid_argument);
         BOOST_CHECK_EQUAL(deleteCount, 0);
-        BOOST_CHECK_EQUAL(foo.get(), ptr);
+        BOOST_CHECK_EQUAL(&foo.get(), ptr);
     }
 
     BOOST_AUTO_TEST_CASE(test_move_assignment_from_null_shared_ptr)
@@ -433,7 +432,7 @@ namespace rebox
 
         BOOST_CHECK_THROW(foo = std::shared_ptr<Base>(), std::invalid_argument);
         BOOST_CHECK_EQUAL(deleteCount, 0);
-        BOOST_CHECK_EQUAL(foo.get(), ptr);
+        BOOST_CHECK_EQUAL(&foo.get(), ptr);
     }
 
     BOOST_AUTO_TEST_CASE(test_move_assignment_from_unique_ptr)
@@ -485,8 +484,8 @@ namespace rebox
 
                 foo.swap(bar);
 
-                BOOST_CHECK_EQUAL(foo.get(), ptr2);
-                BOOST_CHECK_EQUAL(bar.get(), ptr);
+                BOOST_CHECK_EQUAL(&foo.get(), ptr2);
+                BOOST_CHECK_EQUAL(&bar.get(), ptr);
 
                 BOOST_CHECK_EQUAL(deleteCount, 0);
                 BOOST_CHECK_EQUAL(deleteCount2, 0);
@@ -515,8 +514,8 @@ namespace rebox
 
                 swap(foo, bar);
 
-                BOOST_CHECK_EQUAL(foo.get(), ptr2);
-                BOOST_CHECK_EQUAL(bar.get(), ptr);
+                BOOST_CHECK_EQUAL(&foo.get(), ptr2);
+                BOOST_CHECK_EQUAL(&bar.get(), ptr);
 
                 BOOST_CHECK_EQUAL(deleteCount, 0);
                 BOOST_CHECK_EQUAL(deleteCount2, 0);
@@ -546,7 +545,7 @@ namespace rebox
 
                 foo.swap(bar);
 
-                BOOST_CHECK_EQUAL(foo.get(), ptr2);
+                BOOST_CHECK_EQUAL(&foo.get(), ptr2);
                 BOOST_CHECK_EQUAL(bar.get(), ptr);
 
                 BOOST_CHECK_EQUAL(deleteCount, 0);
@@ -571,7 +570,7 @@ namespace rebox
 
             std::shared_ptr<Base> bar;
             BOOST_CHECK_THROW(foo.swap(bar), std::invalid_argument);
-            BOOST_CHECK_EQUAL(foo.get(), ptr);
+            BOOST_CHECK_EQUAL(&foo.get(), ptr);
             BOOST_CHECK_EQUAL(deleteCount, 0);
         }
 
@@ -649,14 +648,14 @@ namespace rebox
 
         shared_instance<Derived> bar{static_pointer_cast<Derived>(foo)};
 
-        BOOST_CHECK_EQUAL(bar.get(), ptr);
+        BOOST_CHECK_EQUAL(&bar.get(), ptr);
     }
 
     BOOST_AUTO_TEST_CASE(test_const_pointer_cast)
     {
         shared_instance<int const> foo{new int(42)};
         shared_instance<int> bar{const_pointer_cast<int>(foo)};
-        BOOST_CHECK_EQUAL(*bar, 42);
+        BOOST_CHECK_EQUAL(bar.get(), 42);
     }
 
     BOOST_AUTO_TEST_CASE(test_get_deleter)
