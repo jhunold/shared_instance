@@ -17,6 +17,8 @@ namespace rebox
     class shared_instance
     {
     public:
+        using type = T;
+
         shared_instance() = delete;
 
         // constructors from other shared_instance's
