@@ -460,6 +460,14 @@ namespace rebox
         foo.swap(bar);
     }
 
+
+    template<typename T, typename... Args>
+    shared_instance<T>
+    make_shared_instance(Args&&... args)
+    {
+        return shared_instance<T>{std::make_shared<T>(args...)};
+    }
+
 }
 
 #endif
