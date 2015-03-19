@@ -22,10 +22,10 @@ namespace rebox
         shared_instance() = delete;
 
         // constructors from other shared_instance's
-        explicit shared_instance(shared_instance const&) = default;
+        shared_instance(shared_instance const&) = default;
 
         template<typename Y>
-        explicit shared_instance(shared_instance<Y> const&);
+        shared_instance(shared_instance<Y> const&);
 
         shared_instance(shared_instance&&) = default;
 
