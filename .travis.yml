@@ -1,0 +1,63 @@
+#dist: trusty
+
+sudo: false
+
+cache:
+  directories:
+  - $HOME/boost
+
+language: cpp
+compiler: clang
+os: linux
+
+env:
+  global:
+
+  # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
+  matrix:
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+matrix:
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+  include:
+    # Clang 3.7
+    - env: TOOLSET=clang
+      compiler: clang
+      addons: &clang37
+        apt:
+          packages: ["clang-3.7", "libc++-dev"]
+          sources: &sources
+            - llvm-toolchain-precise-3.7
+            - ubuntu-toolchain-r-test
+
+    # gcc-5
+    - env: TOOLSET=gcc
+      compiler: gcc
+      addons: &gcc-5
+        apt:
+          packages: ["g++-5", "libstdc++-5-dev", "gdb",]
+          sources: *sources
+
+before_install:
+  - set -e # Fail the whole script whenever any command fails
+
+install:
+  - echo "Toolset ${TOOLSET}"
+  - bash travis/install_boost.sh
+  - if [[ "${TOOLSET}" == "clang" ]]; then bash travis/install_llvm.sh ; fi
+
+# check what has been installed by listing contents of Boost folder
+before_script:
+  - ls -al $HOME/boost
+
+script:
+    - cp travis/project-config.jam project-config.jam
+    - export BOOST_ROOT=$HOME/boost
+    - export PATH="$HOME/boost":$PATH
+    - export LD_LIBRARY_PATH="$HOME/local/lib":$LD_LIBRARY_PATH
+    - b2 cxxflags="-std=c++1y" toolset=$TOOLSET --debug-configuration -j2 -q
+
+before_cache:
+  - pushd $HOME/boost && git clean -dfx && popd

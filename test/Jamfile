@@ -1,3 +1,5 @@
+import testing ;
+
 project shared_instance_test
     : requirements
          <library>/boost//unit_test_framework

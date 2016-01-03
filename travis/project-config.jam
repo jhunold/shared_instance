@@ -1,0 +1,27 @@
+import os ;
+
+local BOOST_ROOT = [ os.environ BOOST_ROOT ] ;
+use-project /boost : $(BOOST_ROOT) ;
+
+local TOOLSET = [ os.environ TOOLSET ] ;
+
+local HOME = [ os.environ HOME ] ;
+
+if $(TOOLSET) = "gcc"
+{
+  using gcc : : /usr/bin/g++-5 ;
+}
+
+if $(TOOLSET) = "clang"
+{
+  using clang :
+              : # compiler
+                  /usr/bin/clang++-3.7
+              : # options
+                  <cxxflags>-stdlib=libc++
+                  <cxxflags>-I$(HOME)/local/include/c++/v1
+
+                  <linkflags>-stdlib=libc++
+                  <linkflags>-L$(HOME)/local/lib
+             ;
+}

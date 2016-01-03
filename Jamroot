@@ -1,3 +1,7 @@
+import feature ;
+
+feature.set-default threading : multi ;
+
 project shared_obj
     : requirements
         <include>include
