@@ -3,16 +3,16 @@ import os ;
 local BOOST_ROOT = [ os.environ BOOST_ROOT ] ;
 use-project /boost : $(BOOST_ROOT) ;
 
-local TOOLSET = [ os.environ TOOLSET ] ;
+local CC = [ os.environ CC ] ;
 
 local HOME = [ os.environ HOME ] ;
 
-if $(TOOLSET) = "gcc"
+if $(CC) = "gcc"
 {
   using gcc : : /usr/bin/g++-5 ;
 }
 
-if $(TOOLSET) = "clang"
+if $(CC) = "clang"
 {
   using clang :
               : # compiler
@@ -25,3 +25,8 @@ if $(TOOLSET) = "clang"
                   <linkflags>-L$(HOME)/local/lib
              ;
 }
+
+variant develop : <optimization>speed
+                  <debug-symbols>on
+                  <inlining>full
+                  <runtime-debugging>off ;
