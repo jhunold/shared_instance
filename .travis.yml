@@ -32,10 +32,6 @@ matrix:
             - llvm-toolchain-precise-3.7
             - ubuntu-toolchain-r-test
 
-    - env: VARIANT=release
-      compiler: clang
-      addons: *clang37
-
     - env: VARIANT=develop
       compiler: clang
       addons: *clang37
@@ -50,10 +46,6 @@ matrix:
              - libstdc++-5-dev
              - gdb
           sources: *sources
-
-    - env: VARIANT=release
-      compiler: gcc
-      addons: *gcc5
 
     - env: VARIANT=develop
       compiler: gcc
