@@ -9,8 +9,8 @@ Author: Robin Eckert `<const@const-iterator.de>`
 
 @               | Travis      | AppVeyor
 ----------------|-------------|---------
-Master branch:  | [![Build Status](https://travis-ci.org/jhunold/shared_instance.svg?branch=master)](https://travis-ci.org/jhunold/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/jhunold/shared_instance?branch=master&svg=true)](https://ci.appveyor.com/project/jhunold/shared-instance)
-Travis branch:  | [![Build Status](https://travis-ci.org/jhunold/shared_instance.svg?branch=travis)](https://travis-ci.org/jhunold/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/jhunold/shared_instance?branch=travis&svg=true)](https://ci.appveyor.com/project/jhunold/shared-instance)
+Master branch:  | [![Build Status](https://travis-ci.org/robin-eckert/shared_instance.svg?branch=master)](https://travis-ci.org/robin-eckert/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/robin-eckert/shared_instance?branch=master&svg=true)](https://ci.appveyor.com/project/robin-eckert/shared-instance)
+Latest branch:  | [![Build Status](https://travis-ci.org/robin-eckert/shared_instance.svg)](https://travis-ci.org/robin-eckert/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/robin-eckert/shared_instance?svg=true)](https://ci.appveyor.com/project/robin-eckert/shared-instance)
 
 Introduction
 ------------
