@@ -27,8 +27,6 @@ namespace rebox
         template<typename Y>
         shared_instance(shared_instance<Y> const&);
 
-        shared_instance(shared_instance&&) = default;
-
         template<typename Y>
         shared_instance(shared_instance<Y>&&);
 
