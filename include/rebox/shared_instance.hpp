@@ -5,8 +5,8 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef _SHARED_INSTANCE_H
-#define _SHARED_INSTANCE_H
+#ifndef REBOX_SHARED_INSTANCE_HPP
+#define REBOX_SHARED_INSTANCE_HPP
 
 #include <memory>
 #include <stdexcept>
