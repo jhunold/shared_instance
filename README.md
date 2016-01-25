@@ -11,10 +11,10 @@ Introduction
 
 `shared_instance` is a wrapper around `std::shared_ptr` ensuring that
 the pointer is always set to value other than `nullptr`. Attempts to
-construct a `shared_instance` with a null value lead to an
-exception. The purpose is to notice errorneous null pointers as soon
-as possible -- when the pointer is set rather than when the pointer is
-used.
+construct a `shared_instance` with a null value are detected instantly
+and lead to an exception (or another configured action). The purpose
+is to notice errorneous null pointers as soon as possible -- when the
+pointer is set rather than when the pointer is used.
 
 Motivation
 ----------
@@ -208,6 +208,28 @@ Cast are also possible:
 `dynamic_pointer_cast` is not available. Use `instance.ptr()` instead:
 
     shared_instance<Derived const> derived = std::dynamic_pointer_cast<Target>(instance.ptr());
+
+If it is preferred not to use exceptions, it is also possible to
+customize the error reporting behaviour by giving a functor as the
+second template parameter. Each time an attempt is made to create a
+null shared_instance, the functor is called. For example, if asserts
+are preferred one can use the following functor:
+
+    #include <cassert>
+
+    class raise_assert
+    {
+    public:
+        void operator()() const
+        {
+            assert(false);
+        }
+    };
+
+    using shared_int = shared_instance<int, raise_assert>;
+
+`shared_int` is now a shared_instance which raises an assertion on
+error instead of throwing an exception.
 
 Reference
 ---------
