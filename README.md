@@ -5,6 +5,12 @@ a wrapper around `std::shared_ptr` that cannot be null
 
 Author: Robin Eckert `<const@const-iterator.de>`
 
+### Test results
+
+@               | Travis      | AppVeyor
+----------------|-------------|---------
+Master branch:  | [![Build Status](https://travis-ci.org/robin-eckert/shared_instance.svg?branch=master)](https://travis-ci.org/robin-eckert/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/robin-eckert/shared_instance?branch=master&svg=true)](https://ci.appveyor.com/project/robin-eckert/shared-instance)
+Latest branch:  | [![Build Status](https://travis-ci.org/robin-eckert/shared_instance.svg)](https://travis-ci.org/robin-eckert/shared_instance) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/robin-eckert/shared_instance?svg=true)](https://ci.appveyor.com/project/robin-eckert/shared-instance)
 
 Introduction
 ------------

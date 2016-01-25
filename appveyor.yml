@@ -1,0 +1,33 @@
+shallow_clone: true
+
+os:
+  - Visual Studio 2015
+
+build:
+  verbosity: detailed
+
+configuration:
+  - Debug
+
+environment:
+  matrix:
+    - VARIANT: debug
+    - VARIANT: develop
+
+install:
+  - set CHECKOUT_DIR=%CD%
+  - mkdir C:\projects\3rdparty
+  - cd C:\projects\3rdparty
+  - git clone  --recursive --depth=1 --single-branch  https://github.com/boostorg/boost.git
+  - cd boost
+  - call bootstrap.bat
+  - b2 headers
+  - cd ..
+  - set BOOST_ROOT=C:\projects\3rdparty\boost
+  - set PATH=%BOOST_ROOT%;%PATH%
+  - set
+  - cd %CHECKOUT_DIR%
+
+build_script:
+  - copy ci\project-config.jam project-config.jam
+  - b2 --debug-configuration -j2 %VARIANT%

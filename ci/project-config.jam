@@ -1,0 +1,32 @@
+import os ;
+
+local BOOST_ROOT = [ os.environ BOOST_ROOT ] ;
+use-project /boost : $(BOOST_ROOT) ;
+
+local CC = [ os.environ CC ] ;
+
+local HOME = [ os.environ HOME ] ;
+
+if $(CC) = "gcc"
+{
+  using gcc : : /usr/bin/g++-5 ;
+}
+
+if $(CC) = "clang"
+{
+  using clang :
+              : # compiler
+                  /usr/bin/clang++-3.7
+              : # options
+                  <cxxflags>-stdlib=libc++
+                  <cxxflags>-I$(HOME)/local/include/c++/v1
+
+                  <linkflags>-stdlib=libc++
+                  <linkflags>-L$(HOME)/local/lib
+             ;
+}
+
+variant develop : <optimization>speed
+                  <debug-symbols>on
+                  <inlining>full
+                  <runtime-debugging>off ;
