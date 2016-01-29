@@ -720,4 +720,21 @@ namespace rebox
         BOOST_CHECK(bar >= bar);
     }
 
+    BOOST_AUTO_TEST_CASE(construct_via_make_shared_instance)
+    {
+        int deleteCount{};
+
+        {
+            auto foo = make_shared_instance<Base>(deleteCount);
+            BOOST_CHECK_EQUAL(foo.use_count(), 1);
+        }
+
+        BOOST_CHECK_EQUAL(deleteCount, 1);
+        {
+            auto foo = make_shared_instance<Derived>(deleteCount);
+            BOOST_CHECK_EQUAL(foo.use_count(), 1);
+        }
+        BOOST_CHECK_EQUAL(deleteCount, 2);
+    }
+
 }
