@@ -478,7 +478,7 @@ namespace rebox
     }
 
 
-    template<typename T, typename Report, typename... Args>
+    template<typename T, typename Report = throw_invalid_argument, typename... Args>
     shared_instance<T, Report>
     make_shared_instance(Args&&... args)
     {
